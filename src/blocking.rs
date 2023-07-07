@@ -250,8 +250,11 @@ impl BlockingClient {
 
         match resp {
             Ok(_) => Ok(()), // We do not return the txid?
-            Err(ureq::Error::Status(code, _)) => Err(Error::HttpResponse(code)),
-            Err(e) => Err(Error::Ureq(e)),
+            //Err(ureq::Error::Status(code, _)) => Err(Error::HttpResponse(code)),
+            Err(e) => {
+                error!("Error broadcasting transaction: {:?}", e);
+                Err(Error::Ureq(e))
+            },
         }
     }
 
