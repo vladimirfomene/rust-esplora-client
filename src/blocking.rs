@@ -254,6 +254,7 @@ impl BlockingClient {
             //Err(ureq::Error::Status(code, _)) => Err(Error::HttpResponse(code)),
             Err(e) => {
                 debug!("Error broadcasting transaction: {:?}", e.source().unwrap());
+                error!("Error broadcasting transaction: {:?}", e.source().unwrap());
                 Err(Error::Ureq(e))
             },
         }
