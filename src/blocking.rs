@@ -255,6 +255,7 @@ impl BlockingClient {
             Err(e) => {
                 debug!("Error broadcasting transaction: {:?}", e.source().unwrap());
                 error!("Error broadcasting transaction: {:?}", e.source().unwrap());
+                println!("Error broadcasting transaction: {:?}", e.source().unwrap());
                 Err(Error::Ureq(e))
             },
         }
