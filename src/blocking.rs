@@ -16,6 +16,7 @@ use std::io;
 use std::io::Read;
 use std::str::FromStr;
 use std::time::Duration;
+use std::error::Error as StdError;
 
 #[allow(unused_imports)]
 use log::{debug, error, info, trace};
@@ -252,9 +253,7 @@ impl BlockingClient {
             Ok(_) => Ok(()), // We do not return the txid?
             //Err(ureq::Error::Status(code, _)) => Err(Error::HttpResponse(code)),
             Err(e) => {
-                error!("Error broadcasting transaction: {:?}", e);
-                debug!("Error broadcasting transaction: {:?}", e);
-                println!("Error broadcasting transaction: {:?}", e);
+                debug!("Error broadcasting transaction: {:?}", e.source().unwrap());
                 Err(Error::Ureq(e))
             },
         }
