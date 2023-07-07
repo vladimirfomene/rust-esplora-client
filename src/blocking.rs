@@ -251,13 +251,12 @@ impl BlockingClient {
 
         match resp {
             Ok(_) => Ok(()), // We do not return the txid?
-            //Err(ureq::Error::Status(code, _)) => Err(Error::HttpResponse(code)),
-            Err(e) => {
-                debug!("Error broadcasting transaction: {:?}", e.source().unwrap());
-                error!("Error broadcasting transaction: {:?}", e.source().unwrap());
-                println!("Error broadcasting transaction: {:?}", e.source().unwrap());
-                Err(Error::Ureq(e))
+            Err(ureq::Error::Status(code, res)) => {
+                let body = res.into_string()?;
+                println!("body: {}", body);
+                Err(Error::HttpResponse(code))
             },
+            Err(e) => Err(Error::Ureq(e)),
         }
     }
 
